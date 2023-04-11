@@ -1,0 +1,32 @@
+modLoader="javafml"
+loaderVersion="[45,)"
+license="Apache-2.0"
+issueTrackerURL="https://github.com/qyl27/GenderMod/issues"
+
+[[mods]]
+modId="gendermod"
+version="${file.jarVersion}"
+displayName="InfinRain's Gender Mod"
+#updateJSONURL="https://change.me.example.invalid/updates.json"
+displayURL="https://github.com/qyl27/GenderMod"
+#logoFile="examplemod.png"
+credits="MeowCraftMC"
+authors="qyl27"
+displayTest="MATCH_VERSION"
+description='''
+Just another gender mod for Minecraft. Maybe more interesting?
+'''
+
+[[dependencies.gendermod]]
+    modId="forge"
+    mandatory=true
+    versionRange="[45,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.gendermod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.19.4,1.20)"
+    ordering="NONE"
+    side="BOTH"

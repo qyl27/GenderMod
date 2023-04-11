@@ -1,0 +1,135 @@
+plugins {
+    id 'eclipse'
+    id 'maven-publish'
+    id "architectury-plugin" version "3.4-SNAPSHOT"
+    id "dev.architectury.loom" version "1.1-SNAPSHOT" apply false
+}
+
+apply plugin: 'java'
+apply plugin: 'architectury-plugin'
+apply plugin: 'maven-publish'
+apply plugin: 'dev.architectury.loom'
+
+group = 'cx.rain.mc.gendermod'
+archivesBaseName = 'gendermod'
+
+version = '1.19.4-1.0.0'
+if (System.getenv("JITPACK") == "true") {
+    version += "-${System.getenv("VERSION")}"
+}
+var release = false
+if (release || (System.getenv("MOD_RELEASE") == 'true')) {
+    version += '-release'
+} else {
+    version += '-dev'
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
+loom {
+    silentMojangMappingsLicense()
+
+    forge {
+    }
+
+    runs {
+        data {
+            data()
+            programArgs '--all', '--mod', 'nbtedit'
+            programArgs '--output', file('src/generated/resources').absolutePath
+            programArgs '--existing', file('src/main/resources').absolutePath
+        }
+    }
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+println "Java: ${System.getProperty 'java.version'}, " +
+        "JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), " +
+        "Arch: ${System.getProperty 'os.arch'}"
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+}
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+repositories {
+    flatDir {
+        dir 'libs'
+    }
+
+    maven {
+        name = 'Jitpack'
+        url = 'https://jitpack.io'
+    }
+
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org'
+    }
+
+    maven {
+        name = "Curse maven"
+        url = "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.19.4"
+    forge "net.minecraftforge:forge:1.19.4-45.0.43"
+
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-1.19.3:2023.03.12@zip")
+    }
+
+    if (!release) {
+        // qyl27: Mod dependency for debugging here.
+        modRuntimeOnly("curse.maven:nbtedit-reborn-678133:4485187")
+    }
+}
+jar {
+    archiveClassifier.set('')
+
+    manifest {
+        attributes([
+                "Specification-Title"     : "gendermod",
+                "Specification-Vendor"    : "qyl27",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.jar.archiveVersion,
+                "Implementation-Vendor"   : "qyl27",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/mcmodsrepo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
