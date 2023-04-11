@@ -85,6 +85,8 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+
+    mavenCentral()
 }
 
 dependencies {
@@ -99,6 +101,7 @@ dependencies {
     if (!release) {
         // qyl27: Mod dependency for debugging here.
         modRuntimeOnly("curse.maven:nbtedit-reborn-678133:4485187")
+        modImplementation("com.ptsmods:devlogin:3.1.1")
     }
 }
 jar {

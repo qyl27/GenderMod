@@ -75,6 +75,7 @@ public class PlayerGender implements IPlayerGender {
         var genderName = tag.getString(TAG_GENDER_NAME);
         gender = GenderRegistry.GENDER_REGISTRY.get().getValue(new ResourceLocation(genderName));
 
+        traits.clear();
         for (var traitTag : tag.getList(TAG_GENDER_TRAITS_NAME, Tag.TAG_STRING)) {
             if (traitTag instanceof StringTag traitName) {
                 traits.add(GenderRegistry.GENDER_TRAITS_REGISTRY.get().getValue(new ResourceLocation(traitName.getAsString())));
