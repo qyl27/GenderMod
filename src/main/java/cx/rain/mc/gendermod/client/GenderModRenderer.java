@@ -1,37 +1,51 @@
 package cx.rain.mc.gendermod.client;
 
 import cx.rain.mc.gendermod.GenderMod;
-import cx.rain.mc.gendermod.client.renderer.HairRenderer;
-import cx.rain.mc.gendermod.client.renderer.layer.LongHairLayer;
-import cx.rain.mc.gendermod.client.renderer.model.LongHairModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
+import cx.rain.mc.gendermod.client.renderer.layer.PlayerModelLayer;
+import cx.rain.mc.gendermod.gender.GenderRegistry;
+import cx.rain.mc.gendermod.gender.traits.ITraitHasModel;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-@Mod.EventBusSubscriber(modid = GenderMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = GenderMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class GenderModRenderer {
-    public static final ModelLayerLocation LONG_HAIR_LOCATION = new ModelLayerLocation(new ResourceLocation(GenderMod.MODID, "long_hair"), "main");
 
     @SubscribeEvent
-    public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(EntityType.PLAYER, ctx -> (EntityRenderer) new HairRenderer(ctx));
+    public static void onClientSetup(FMLClientSetupEvent event) {
     }
 
     @SubscribeEvent
     public static void onRegisterLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(LONG_HAIR_LOCATION, () -> LongHairModel.createLayer(CubeDeformation.NONE));
+        for (var traits : GenderRegistry.GENDER_TRAITS_REGISTRY.get().getValues()) {
+            if (traits instanceof ITraitHasModel model) {
+                event.registerLayerDefinition(model.getTraitModelLayerLocation(), model::createLayer);
+            }
+        }
     }
 
     @SubscribeEvent
     public static void onAddLayer(EntityRenderersEvent.AddLayers event) {
-        var renderer =  event.getRenderer(EntityType.PLAYER);
-        renderer.addLayer((RenderLayer) new LongHairLayer((RenderLayerParent) renderer, new LongHairModel(event.getEntityModels().bakeLayer(GenderModRenderer.LONG_HAIR_LOCATION)), 1));
+        LivingEntityRenderer<Player, PlayerModel<Player>> renderer = event.getSkin("default");
+        LivingEntityRenderer<Player, PlayerModel<Player>> rendererSlim = event.getSkin("slim");
+
+        var modelSet = event.getEntityModels();
+        addLayers(renderer, modelSet);
+        addLayers(rendererSlim, modelSet);
+    }
+
+    private static void addLayers(LivingEntityRenderer<Player, PlayerModel<Player>> renderer, EntityModelSet modelSet) {
+        for (var traits : GenderRegistry.GENDER_TRAITS_REGISTRY.get().getValues()) {
+            if (traits instanceof ITraitHasModel model) {
+                renderer.addLayer(new PlayerModelLayer<>(renderer,
+                        model.getTraitModel(modelSet.bakeLayer(model.getTraitModelLayerLocation()))));
+            }
+        }
     }
 }

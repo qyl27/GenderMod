@@ -100,7 +100,7 @@ dependencies {
 
     if (!release) {
         // qyl27: Mod dependency for debugging here.
-        modRuntimeOnly("curse.maven:nbtedit-reborn-678133:4485187")
+        modRuntimeOnly("curse.maven:nbtedit-reborn-678133:4486370")
         modImplementation("com.ptsmods:devlogin:3.1.1")
     }
 }

@@ -2,6 +2,7 @@ package cx.rain.mc.gendermod.gender;
 
 import cx.rain.mc.gendermod.GenderMod;
 import cx.rain.mc.gendermod.gender.traits.GenderTrait;
+import cx.rain.mc.gendermod.gender.traits.LongHairTrait;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.*;
@@ -19,7 +20,7 @@ public class GenderRegistry {
     public static final DeferredRegister<GenderTrait> GENDER_TRAITS = DeferredRegister.create(new ResourceLocation(GenderMod.MODID, "gender_traits"), GenderMod.MODID);
     public static final Supplier<IForgeRegistry<GenderTrait>> GENDER_TRAITS_REGISTRY = GENDER_TRAITS.makeRegistry(RegistryBuilder::new);
 
-    public static final RegistryObject<GenderTrait> LONG_HAIR = GENDER_TRAITS.register("long_hair", () -> new GenderTrait("long_hair"));
+    public static final RegistryObject<GenderTrait> LONG_HAIR = GENDER_TRAITS.register("long_hair", () -> new LongHairTrait("long_hair"));
     public static final RegistryObject<GenderTrait> BREAST = GENDER_TRAITS.register("breast", () -> new GenderTrait("breast"));
     public static final RegistryObject<GenderTrait> BEARD = GENDER_TRAITS.register("beard", () -> new GenderTrait("beard"));
 

@@ -1,6 +1,7 @@
 package cx.rain.mc.gendermod.capabilities;
 
 import cx.rain.mc.gendermod.GenderMod;
+import cx.rain.mc.gendermod.networking.ModNetworking;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -26,21 +27,28 @@ public class ModCapabilities {
 
     @SubscribeEvent
     public static void onAttachPlayer(AttachCapabilitiesEvent<Entity> event) {
-        if (event.getObject() instanceof Player player) {
-            if (!player.getCapability(PLAYER_GENDER_CAPABILITY).isPresent()) {
-                event.addCapability(PLAYER_GENDER_CAPABILITY_NAME, new PlayerGenderProvider());
-            }
+        if (event.getObject() instanceof Player) {
+            var provider = new PlayerGenderProvider();
+            event.addCapability(PLAYER_GENDER_CAPABILITY_NAME, provider);
+            event.addListener(provider::invalidate);
         }
     }
 
     @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
-        if (!event.isWasDeath()) {
-            event.getOriginal().getCapability(PLAYER_GENDER_CAPABILITY).ifPresent(original -> {
+        if (event.isWasDeath()) {
+            event.getOriginal().getCapability(PLAYER_GENDER_CAPABILITY).ifPresent(original ->
+            {
                 event.getEntity().getCapability(PLAYER_GENDER_CAPABILITY).ifPresent(newCap -> {
                     newCap.deserializeNBT(original.serializeNBT());
+                    newCap.randGender();
                 });
             });
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerSpawn(PlayerEvent.PlayerRespawnEvent event) {
+        // Todo: capability sync.
     }
 }

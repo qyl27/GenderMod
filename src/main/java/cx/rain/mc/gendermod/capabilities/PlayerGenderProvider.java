@@ -1,6 +1,5 @@
 package cx.rain.mc.gendermod.capabilities;
 
-import cx.rain.mc.gendermod.gender.GenderRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.Capability;
@@ -10,32 +9,26 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Random;
-
 public class PlayerGenderProvider implements ICapabilityProvider, ICapabilitySerializable<CompoundTag> {
-    public static final Random RANDOM = new Random();
-
-    private IPlayerGender gender = new PlayerGender();
+    private IPlayerGender gender = new PlayerGender(true);
 
     private final LazyOptional<IPlayerGender> optional = LazyOptional.of(() -> gender);
 
-    public PlayerGenderProvider() {
-        if (gender.getGender() == null) {
-            if (RANDOM.nextBoolean()) {
-                gender.setGender(GenderRegistry.MALE.get());
-            } else {
-                gender.setGender(GenderRegistry.FEMALE.get());
-            }
-        }
-    }
-
     @Override
     public CompoundTag serializeNBT() {
+        if (gender == null) {
+            gender = optional.orElse(new PlayerGender(true));
+        }
+
         return gender.serializeNBT();
     }
 
     @Override
     public void deserializeNBT(CompoundTag tag) {
+        if (gender == null) {
+            gender = optional.orElse(new PlayerGender(true));
+        }
+
         gender.deserializeNBT(tag);
     }
 
@@ -46,5 +39,9 @@ public class PlayerGenderProvider implements ICapabilityProvider, ICapabilitySer
         }
 
         return LazyOptional.empty();
+    }
+
+    public void invalidate() {
+        optional.invalidate();
     }
 }
