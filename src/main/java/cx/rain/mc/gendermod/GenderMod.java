@@ -1,6 +1,7 @@
 package cx.rain.mc.gendermod;
 
 import cx.rain.mc.gendermod.gender.GenderRegistry;
+import cx.rain.mc.gendermod.networking.ModNetworking;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -16,6 +17,8 @@ public class GenderMod {
 
     private final Logger logger = LoggerFactory.getLogger(NAME);
 
+    private final ModNetworking networking;
+
     public GenderMod() {
         INSTANCE = this;
 
@@ -24,6 +27,8 @@ public class GenderMod {
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         GenderRegistry.register(bus);
+
+        networking = new ModNetworking();
 
         getLogger().info("Equality!");
     }
@@ -34,5 +39,9 @@ public class GenderMod {
 
     public Logger getLogger() {
         return logger;
+    }
+
+    public ModNetworking getNetworking() {
+        return networking;
     }
 }

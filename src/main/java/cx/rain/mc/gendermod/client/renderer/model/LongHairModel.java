@@ -41,8 +41,8 @@ public class LongHairModel<P extends Player> extends TraitsModel<P> {
     @Override
     public boolean shouldRender(P entity) {
         // Todo: capability sync.
-//        var cap = entity.getCapability(ModCapabilities.PLAYER_GENDER_CAPABILITY).orElseThrow(RuntimeException::new);
-//        return cap.hasGenderTrait(GenderRegistry.LONG_HAIR.get());
-        return false;
+        var cap = entity.getCapability(ModCapabilities.PLAYER_GENDER_CAPABILITY).orElseThrow(RuntimeException::new);
+        System.out.println(cap.hasGenderTrait(GenderRegistry.LONG_HAIR.get()));
+        return cap.hasGenderTrait(GenderRegistry.LONG_HAIR.get());
     }
 }

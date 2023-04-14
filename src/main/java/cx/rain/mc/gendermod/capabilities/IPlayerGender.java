@@ -10,6 +10,8 @@ import java.util.Set;
 public interface IPlayerGender extends INBTSerializable<CompoundTag> {
 
     void randGender();
+    void onChanged();
+
     Gender getGender();
     void setGender(Gender gender);
 

@@ -25,7 +25,8 @@ public class GenderModRenderer {
     public static void onRegisterLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         for (var traits : GenderRegistry.GENDER_TRAITS_REGISTRY.get().getValues()) {
             if (traits instanceof ITraitHasModel model) {
-                event.registerLayerDefinition(model.getTraitModelLayerLocation(), model::createLayer);
+                var provider = model.getTraitModelProvider();
+                event.registerLayerDefinition(provider.getTraitModelLayerLocation(), provider::createLayer);
             }
         }
     }
@@ -43,8 +44,9 @@ public class GenderModRenderer {
     private static void addLayers(LivingEntityRenderer<Player, PlayerModel<Player>> renderer, EntityModelSet modelSet) {
         for (var traits : GenderRegistry.GENDER_TRAITS_REGISTRY.get().getValues()) {
             if (traits instanceof ITraitHasModel model) {
+                var provider = model.getTraitModelProvider();
                 renderer.addLayer(new PlayerModelLayer<>(renderer,
-                        model.getTraitModel(modelSet.bakeLayer(model.getTraitModelLayerLocation()))));
+                        provider.getTraitModel(modelSet.bakeLayer(provider.getTraitModelLayerLocation()))));
             }
         }
     }

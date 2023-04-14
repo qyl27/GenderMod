@@ -1,8 +1,10 @@
 package cx.rain.mc.gendermod.capabilities;
 
+import cx.rain.mc.gendermod.GenderMod;
 import cx.rain.mc.gendermod.gender.Gender;
 import cx.rain.mc.gendermod.gender.GenderRegistry;
 import cx.rain.mc.gendermod.gender.traits.GenderTrait;
+import cx.rain.mc.gendermod.networking.ModNetworking;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -34,6 +36,11 @@ public class PlayerGender implements IPlayerGender {
         } else {
             gender = GenderRegistry.FEMALE.get();
         }
+    }
+
+    @Override
+    public void onChanged() {
+        GenderMod.getInstance().getNetworking().updateGenderCapability(serializeNBT());
     }
 
     @Override
