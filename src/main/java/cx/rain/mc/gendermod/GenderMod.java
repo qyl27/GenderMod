@@ -29,7 +29,7 @@ public class GenderMod {
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         GModItems.register(bus);
-//        GModStats.register(bus);  // Todo: stat.
+        GModStats.register(bus);  // Todo: stat.
         GenderRegistry.register(bus);
 
         networking = new GModNetworking();

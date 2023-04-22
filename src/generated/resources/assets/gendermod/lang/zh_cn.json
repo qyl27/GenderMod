@@ -1,0 +1,7 @@
+{
+  "gendermod.potion.transgender.effect.name": "改变性别",
+  "item.gendermod.transgender_potion": "变性药水",
+  "item.gendermod.transgender_potion.desc": "改变使用者的性别，只能使用一次",
+  "item.gendermod.transgender_potion.effect.empty": "变性药水",
+  "stat.gendermod.gender_transitions": "性转次数"
+}

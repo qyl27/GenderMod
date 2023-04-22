@@ -38,7 +38,7 @@ loom {
     runs {
         data {
             data()
-            programArgs '--all', '--mod', 'nbtedit'
+            programArgs '--all', '--mod', 'gendermod'
             programArgs '--output', file('src/generated/resources').absolutePath
             programArgs '--existing', file('src/main/resources').absolutePath
         }

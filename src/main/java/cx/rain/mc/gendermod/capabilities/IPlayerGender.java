@@ -13,6 +13,8 @@ public interface IPlayerGender extends INBTSerializable<CompoundTag> {
 
     Gender getGender();
     void setGender(Gender gender);
+    boolean hasUsePotion();
+    void setUsedPotion(boolean value);
 
     boolean hasGenderTrait(GenderTrait trait);
     Set<GenderTrait> getGenderTrait();

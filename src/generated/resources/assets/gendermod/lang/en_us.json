@@ -1,0 +1,7 @@
+{
+  "gendermod.potion.transgender.effect.name": "Change gender",
+  "item.gendermod.transgender_potion": "Gender transition potion",
+  "item.gendermod.transgender_potion.desc": "Change gender of user, only can be used once",
+  "item.gendermod.transgender_potion.effect.empty": "Gender transition potion",
+  "stat.gendermod.gender_transitions": "Gender transition times"
+}

@@ -7,7 +7,9 @@ import cx.rain.mc.gendermod.stat.GModStats;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,10 +23,21 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+// Fixme: qyl27: use custom potion implementation instead?
 public class TransgenderPotion extends PotionItem {
 
     public TransgenderPotion(Properties arg) {
         super(arg);
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        var cap = player.getCapability(GModCapabilities.PLAYER_GENDER_CAPABILITY).orElseThrow(RuntimeException::new);
+        if (cap.hasUsePotion()) {
+            return InteractionResultHolder.pass(player.getItemInHand(usedHand));
+        }
+
+        return super.use(level, player, usedHand);
     }
 
     @Override
@@ -34,22 +47,24 @@ public class TransgenderPotion extends PotionItem {
         }
 
         player.awardStat(Stats.ITEM_USED.get(this));
-        // Todo: stat.
-//        player.awardStat(GModStats.TRANSGENDER_TIMES);
-        if (!player.getAbilities().instabuild) {
-            var cap = player.getCapability(GModCapabilities.PLAYER_GENDER_CAPABILITY).orElseThrow(RuntimeException::new);
-            var gender = cap.getGender();
+        player.awardStat(Stats.CUSTOM.get(GModStats.GENDER_TRANSITIONS.get()));
 
+        var cap = player.getCapability(GModCapabilities.PLAYER_GENDER_CAPABILITY).orElseThrow(RuntimeException::new);
+        var gender = cap.getGender();
+
+        if (!cap.hasUsePotion()) {
             if (gender.getName().equals(GenderRegistry.MALE.get().getName())) {
                 cap.setGender(GenderRegistry.FEMALE.get());
             } else if (gender.getName().equals(GenderRegistry.FEMALE.get().getName())) {
                 cap.setGender(GenderRegistry.MALE.get());
             }
 
-            stack.shrink(1);
+            cap.setUsedPotion(true);
         }
 
         if (!player.getAbilities().instabuild) {
+            stack.shrink(1);
+
             if (stack.isEmpty()) {
                 return new ItemStack(Items.GLASS_BOTTLE);
             }
@@ -58,7 +73,6 @@ public class TransgenderPotion extends PotionItem {
         }
         livingEntity.gameEvent(GameEvent.DRINK);
 
-        stack.shrink(1);
         return stack;
     }
 
@@ -80,7 +94,7 @@ public class TransgenderPotion extends PotionItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level,
                                 List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        tooltipComponents.add(Component.translatable(GModConstants.TRANSLATE_TRANSGENDER_POTION_EFFECT)
-                .withStyle(ChatFormatting.BLUE));
+        tooltipComponents.add(Component.translatable(GModConstants.TRANSLATE_EFFECT_TRANSGENDER_POTION_NAME).withStyle(ChatFormatting.BLUE));
+        tooltipComponents.add(Component.translatable(GModConstants.TRANSLATE_ITEM_TRANSGENDER_POTION_DESC).withStyle(ChatFormatting.GRAY));
     }
 }

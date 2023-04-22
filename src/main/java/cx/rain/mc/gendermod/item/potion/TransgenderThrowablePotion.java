@@ -45,7 +45,7 @@ public class TransgenderThrowablePotion extends ThrowablePotionItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level,
                                 List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        tooltipComponents.add(Component.translatable(GModConstants.TRANSLATE_TRANSGENDER_POTION_EFFECT)
+        tooltipComponents.add(Component.translatable(GModConstants.TRANSLATE_EFFECT_TRANSGENDER_POTION_NAME)
                 .withStyle(ChatFormatting.BLUE));
     }
 }
