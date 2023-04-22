@@ -8,14 +8,14 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class S2CUpdateGenderCapabilityPacket {
+public class UpdateGenderCapabilityS2CPacket {
     protected CompoundTag tag;
 
-    public S2CUpdateGenderCapabilityPacket(CompoundTag tag) {
+    public UpdateGenderCapabilityS2CPacket(CompoundTag tag) {
         this.tag = tag;
     }
 
-    public S2CUpdateGenderCapabilityPacket(ByteBuf byteBuf) {
+    public UpdateGenderCapabilityS2CPacket(ByteBuf byteBuf) {
         var buf = new FriendlyByteBuf(byteBuf);
         tag = buf.readNbt();
     }

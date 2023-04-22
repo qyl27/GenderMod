@@ -2,12 +2,9 @@ package cx.rain.mc.gendermod.networking;
 
 import cx.rain.mc.gendermod.GenderMod;
 import cx.rain.mc.gendermod.capabilities.IPlayerGender;
-import cx.rain.mc.gendermod.networking.packet.S2CUpdateGenderCapabilityPacket;
-import net.minecraft.nbt.CompoundTag;
+import cx.rain.mc.gendermod.networking.packet.UpdateGenderCapabilityS2CPacket;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -38,14 +35,14 @@ public class ModNetworking {
     }
 
     private void registerMessages() {
-        channel.messageBuilder(S2CUpdateGenderCapabilityPacket.class, nextId())
-                .encoder(S2CUpdateGenderCapabilityPacket::toBytes)
-                .decoder(S2CUpdateGenderCapabilityPacket::new)
-                .consumerMainThread(S2CUpdateGenderCapabilityPacket::clientHandleOnMain)
+        channel.messageBuilder(UpdateGenderCapabilityS2CPacket.class, nextId())
+                .encoder(UpdateGenderCapabilityS2CPacket::toBytes)
+                .decoder(UpdateGenderCapabilityS2CPacket::new)
+                .consumerMainThread(UpdateGenderCapabilityS2CPacket::clientHandleOnMain)
                 .add();
     }
 
     public void updateGenderCapability(Entity entity, IPlayerGender cap) {
-        channel.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new S2CUpdateGenderCapabilityPacket(cap.serializeNBT()));
+        channel.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new UpdateGenderCapabilityS2CPacket(cap.serializeNBT()));
     }
 }

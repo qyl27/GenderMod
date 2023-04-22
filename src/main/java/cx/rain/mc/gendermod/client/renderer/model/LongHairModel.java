@@ -41,7 +41,9 @@ public class LongHairModel<P extends Player> extends TraitsModel<P> {
 
     @Override
     public boolean shouldRender(P entity) {
-        var cap = entity.getCapability(ModCapabilities.PLAYER_GENDER_CAPABILITY).orElseThrow(RuntimeException::new);
-        return cap.hasGenderTrait(GenderRegistry.LONG_HAIR.get());
+        return false;
+        // Todo: I have no idea to show hair.
+//        var cap = entity.getCapability(ModCapabilities.PLAYER_GENDER_CAPABILITY).orElseThrow(RuntimeException::new);
+//        return cap.hasGenderTrait(GenderRegistry.LONG_HAIR.get());
     }
 }
