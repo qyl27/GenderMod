@@ -1,9 +1,7 @@
 package cx.rain.mc.gendermod.capabilities;
 
 import cx.rain.mc.gendermod.GenderMod;
-import cx.rain.mc.gendermod.networking.ModNetworking;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
@@ -16,7 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = GenderMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ModCapabilities {
+public class GModCapabilities {
     public static final ResourceLocation PLAYER_GENDER_CAPABILITY_NAME = new ResourceLocation(GenderMod.MODID, "player_gender");
 
     public static final Capability<IPlayerGender> PLAYER_GENDER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});

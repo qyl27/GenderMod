@@ -2,8 +2,6 @@ package cx.rain.mc.gendermod.client.renderer.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import cx.rain.mc.gendermod.capabilities.ModCapabilities;
-import cx.rain.mc.gendermod.gender.GenderRegistry;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;

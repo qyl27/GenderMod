@@ -9,14 +9,14 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
-public class ModNetworking {
+public class GModNetworking {
     private SimpleChannel channel;
 
     private static final ResourceLocation MESSAGES_NAME = new ResourceLocation(GenderMod.MODID, "messages");
 
     private static int ID = 0;
 
-    public ModNetworking() {
+    public GModNetworking() {
         channel = NetworkRegistry.newSimpleChannel(MESSAGES_NAME,
                 () -> GenderMod.VERSION,
                 GenderMod.VERSION::equals,

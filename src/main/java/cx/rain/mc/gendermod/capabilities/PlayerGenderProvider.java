@@ -34,7 +34,7 @@ public class PlayerGenderProvider implements ICapabilityProvider, ICapabilitySer
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction direction) {
-        if (cap == ModCapabilities.PLAYER_GENDER_CAPABILITY) {
+        if (cap == GModCapabilities.PLAYER_GENDER_CAPABILITY) {
             return optional.cast();
         }
 
