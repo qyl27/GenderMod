@@ -42,7 +42,6 @@ public class ModCapabilities {
             {
                 event.getEntity().getCapability(PLAYER_GENDER_CAPABILITY).ifPresent(newCap -> {
                     newCap.deserializeNBT(original.serializeNBT());
-//                    newCap.randGender();
                 });
             });
         }
@@ -65,28 +64,17 @@ public class ModCapabilities {
 
     @SubscribeEvent
     public static void onPlayerStartTracking(PlayerEvent.StartTracking event) {
-        var updateReceiver = event.getEntity();
-        var capabilityHolder = event.getTarget();
-
-        syncCapabilityTo(updateReceiver, capabilityHolder);
+        var target = event.getTarget();
+        if (target instanceof Player player) {
+            syncCapability(player);
+        }
     }
 
     private static void syncCapability(Player capabilityHolder) {
         var cap = capabilityHolder.getCapability(PLAYER_GENDER_CAPABILITY);
         if (cap.isPresent()) {
             var genderCap = cap.orElseThrow(RuntimeException::new);
-            GenderMod.getInstance().getNetworking().updateGenderCapability(genderCap.serializeNBT());
-        }
-    }
-
-    private static void syncCapabilityTo(Player updateReceiver, Entity capabilityHolder) {
-        var cap = capabilityHolder.getCapability(PLAYER_GENDER_CAPABILITY);
-        if (cap.isPresent()) {
-            var genderCap = cap.orElseThrow(RuntimeException::new);
-
-            if (updateReceiver instanceof ServerPlayer serverPlayer) {
-                GenderMod.getInstance().getNetworking().updateGenderCapability(genderCap.serializeNBT(), serverPlayer);
-            }
+            GenderMod.getInstance().getNetworking().updateGenderCapability(capabilityHolder, genderCap);
         }
     }
 }

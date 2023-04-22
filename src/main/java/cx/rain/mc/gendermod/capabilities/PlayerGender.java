@@ -39,11 +39,6 @@ public class PlayerGender implements IPlayerGender {
     }
 
     @Override
-    public void onChanged() {
-        GenderMod.getInstance().getNetworking().updateGenderCapability(serializeNBT());
-    }
-
-    @Override
     public Gender getGender() {
         return gender;
     }

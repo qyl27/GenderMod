@@ -1,10 +1,12 @@
 package cx.rain.mc.gendermod.networking;
 
 import cx.rain.mc.gendermod.GenderMod;
+import cx.rain.mc.gendermod.capabilities.IPlayerGender;
 import cx.rain.mc.gendermod.networking.packet.S2CUpdateGenderCapabilityPacket;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
@@ -43,11 +45,7 @@ public class ModNetworking {
                 .add();
     }
 
-    public void updateGenderCapability(CompoundTag tag) {
-        channel.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.noArg(), new S2CUpdateGenderCapabilityPacket(tag));
-    }
-
-    public void updateGenderCapability(CompoundTag tag, ServerPlayer player) {
-        channel.sendTo(new S2CUpdateGenderCapabilityPacket(tag), player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+    public void updateGenderCapability(Entity entity, IPlayerGender cap) {
+        channel.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new S2CUpdateGenderCapabilityPacket(cap.serializeNBT()));
     }
 }

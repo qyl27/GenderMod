@@ -34,15 +34,14 @@ public class LongHairModel<P extends Player> extends TraitsModel<P> {
         var cubeDeformation = CubeDeformation.NONE;
         var meshDefinition = HumanoidModel.createMesh(cubeDeformation, 0);
         var partDefinition = meshDefinition.getRoot();
+        // Todo: better hair render.
         partDefinition.addOrReplaceChild("long_hair", CubeListBuilder.create().texOffs(32, 0).addBox(-4, 0, 2, 8, 8, 1, cubeDeformation), PartPose.ZERO);
         return LayerDefinition.create(meshDefinition, 64, 64);
     }
 
     @Override
     public boolean shouldRender(P entity) {
-        // Todo: capability sync.
         var cap = entity.getCapability(ModCapabilities.PLAYER_GENDER_CAPABILITY).orElseThrow(RuntimeException::new);
-        System.out.println(cap.hasGenderTrait(GenderRegistry.LONG_HAIR.get()));
         return cap.hasGenderTrait(GenderRegistry.LONG_HAIR.get());
     }
 }
