@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "gendermod",
+  "version": "${version}",
+  "name": "InfinRain's Gender Mod",
+  "description": "Just another gender mod for Minecraft.",
+  "authors": [
+    "qyl27"
+  ],
+  "contact": {
+    "homepage": "https://github.com/qyl27/GenderMod",
+    "sources": "https://github.com/qyl27/GenderMod",
+    "issues": "https://github.com/qyl27/GenderMod/issues"
+  },
+  "license": "Apache-2.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "cx.rain.mc.gendermod.fabric.GenderModFabric"
+    ],
+    "client": [
+      "cx.rain.mc.gendermod.fabric.client.GenderModFabricClient"
+    ]
+  },
+  "mixins": [
+    "gendermod.mixins.json",
+    "gendermod-common.mixins.json"
+  ],
+  "depends": {
+    "fabric": "*",
+    "fabricloader": ">=0.14.19",
+    "minecraft": ">=1.19.4",
+    "architectury": ">=8.1.79"
+  }
+}

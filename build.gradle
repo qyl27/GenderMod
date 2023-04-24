@@ -1,138 +1,59 @@
 plugins {
-    id 'eclipse'
-    id 'maven-publish'
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "1.1-SNAPSHOT" apply false
 }
 
-apply plugin: 'java'
-apply plugin: 'architectury-plugin'
-apply plugin: 'maven-publish'
-apply plugin: 'dev.architectury.loom'
-
-group = 'cx.rain.mc.gendermod'
-archivesBaseName = 'gendermod'
-
-version = '1.19.4-1.0.0'
-if (System.getenv("JITPACK") == "true") {
-    version += "-${System.getenv("VERSION")}"
-}
-var release = false
-if (release || (System.getenv("MOD_RELEASE") == 'true')) {
-    version += '-release'
-} else {
-    version += '-dev'
-}
-
 architectury {
-    platformSetupLoomIde()
-    forge()
+    minecraft = rootProject.minecraft_version
 }
 
-loom {
-    silentMojangMappingsLicense()
+subprojects {
+    apply plugin: "dev.architectury.loom"
 
-    forge {
+    loom {
+        silentMojangMappingsLicense()
     }
 
-    runs {
-        data {
-            data()
-            programArgs '--all', '--mod', 'gendermod'
-            programArgs '--output', file('src/generated/resources').absolutePath
-            programArgs '--existing', file('src/main/resources').absolutePath
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        // The following line declares the mojmap mappings, you may use other mappings as well
+        mappings loom.layered() {
+            officialMojangMappings()
+            parchment("org.parchmentmc.data:parchment-${project.parchment_minecraft_version}:${project.parchment_version}@zip")
         }
+        // The following line declares the yarn mappings you may select this one as well.
+        // mappings "net.fabricmc:yarn:@YARN_MAPPINGS@:v2"
     }
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
 
-println "Java: ${System.getProperty 'java.version'}, " +
-        "JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), " +
-        "Arch: ${System.getProperty 'os.arch'}"
+    archivesBaseName = rootProject.archives_base_name
+    version = rootProject.mod_version
+    group = rootProject.maven_group
 
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
-}
-
-processResources {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-}
-
-repositories {
-    flatDir {
-        dir 'libs'
-    }
-
-    maven {
-        name = 'Jitpack'
-        url = 'https://jitpack.io'
-    }
-
-    maven {
-        name = 'ParchmentMC'
-        url = 'https://maven.parchmentmc.org'
-    }
-
-    maven {
-        name = "Curse maven"
-        url = "https://cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
-
-    mavenCentral()
-}
-
-dependencies {
-    minecraft "com.mojang:minecraft:1.19.4"
-    forge "net.minecraftforge:forge:1.19.4-45.0.43"
-
-    mappings loom.layered() {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-1.19.3:2023.03.12@zip")
-    }
-
-    if (!release) {
-        // qyl27: Mod dependency for debugging here.
-        modRuntimeOnly("curse.maven:nbtedit-reborn-678133:4486370")
-        modImplementation("com.ptsmods:devlogin:3.1.1")
-    }
-}
-jar {
-    archiveClassifier.set('')
-
-    manifest {
-        attributes([
-                "Specification-Title"     : "gendermod",
-                "Specification-Vendor"    : "qyl27",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.jar.archiveVersion,
-                "Implementation-Vendor"   : "qyl27",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
     repositories {
+        // Add repositories to retrieve artifacts from in here.
+        // You should only use this when depending on other mods because
+        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
+        // for more information about repositories.
+
         maven {
-            url "file://${project.projectDir}/mcmodsrepo"
+            name = 'ParchmentMC'
+            url = 'https://maven.parchmentmc.org'
         }
     }
-}
 
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+        options.release = 17
+    }
+
+    java {
+        withSourcesJar()
+    }
 }
