@@ -80,7 +80,13 @@ public class GenderTransPotionItem extends PotionItem {
 
     @Override
     public ItemStack getDefaultInstance() {
-        return new ItemStack(this);
+        var stack = new ItemStack(this);
+
+        if (PotionUtils.getPotion(stack) != GModPotion.GENDER_TRANSFORM.get()) {
+            PotionUtils.setPotion(stack, GModPotion.GENDER_TRANSFORM.get());
+        }
+
+        return stack;
     }
 
     @Override
@@ -90,5 +96,10 @@ public class GenderTransPotionItem extends PotionItem {
         if (PotionUtils.getPotion(stack) != GModPotion.GENDER_TRANSFORM.get()) {
             PotionUtils.setPotion(stack, GModPotion.GENDER_TRANSFORM.get());
         }
+    }
+
+    @Override
+    public String getDescriptionId(ItemStack stack) {
+        return this.getDescriptionId();
     }
 }

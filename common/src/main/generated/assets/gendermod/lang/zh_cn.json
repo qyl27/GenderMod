@@ -1,8 +1,11 @@
 {
   "effect.gendermod.gender_transform": "改变性别",
   "gendermod.gender_transforms": "性转次数",
+  "item.gendermod.gender_transform_lingering_potion": "滞留型变性药水",
   "item.gendermod.gender_transform_lingering_potion.effect.gender_transform": "滞留型变性药水",
+  "item.gendermod.gender_transform_potion": "变性药水",
   "item.gendermod.gender_transform_potion.effect.gender_transform": "变性药水",
+  "item.gendermod.gender_transform_splash_potion": "喷溅型变性药水",
   "item.gendermod.gender_transform_splash_potion.effect.gender_transform": "喷溅型变性药水",
   "item.gendermod.transgender_potion.desc": "改变使用者的性别，只能使用一次"
 }
