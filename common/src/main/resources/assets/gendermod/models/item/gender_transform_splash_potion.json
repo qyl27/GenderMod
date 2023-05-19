@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "gendermod:item/gender_transform_splash_potion"
-  }
-}

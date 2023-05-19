@@ -9,6 +9,19 @@ architectury {
 
 loom {
     accessWidenerPath = project(":common").loom.accessWidenerPath
+
+    runs {
+        datagen {
+            inherit client
+            name 'Data Generation'
+
+            vmArg '-Dfabric-api.datagen'
+            vmArg "-Dfabric-api.datagen.output-dir=${file('../common/src/main/generated')}"
+            vmArg "-Dfabric-api.datagen.modid=${modid}"
+
+            runDir 'build/datagen'
+        }
+    }
 }
 
 configurations {
@@ -24,6 +37,14 @@ repositories {
         name = "Mod Menu"
         url = "https://maven.terraformersmc.com/releases"
     }
+
+    maven {
+        name = "Curse maven"
+        url = "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
@@ -32,6 +53,7 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     modRuntimeOnly "com.terraformersmc:modmenu:6.2.1"
+    modRuntimeOnly "curse.maven:nbtedit-reborn-678133:4507558"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

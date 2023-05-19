@@ -20,6 +20,9 @@
     ],
     "client": [
       "cx.rain.mc.gendermod.fabric.client.GenderModFabricClient"
+    ],
+    "fabric-datagen": [
+      "cx.rain.mc.gendermod.fabric.data.GenderModFabricData"
     ]
   },
   "mixins": [
