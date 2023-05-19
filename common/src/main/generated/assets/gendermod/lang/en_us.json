@@ -1,8 +1,8 @@
 {
   "effect.gendermod.gender_transform": "Gender transformation",
-  "item.gendermod.transgender_potion.desc": "Change gender of user, only can be used once",
+  "gendermod.gender_transforms": "Gender transformations",
+  "item.gendermod.gender_transform_lingering_potion.effect.gender_transform": "Lingering Potion of Gender Transformation",
   "item.gendermod.gender_transform_potion.effect.gender_transform": "Potion of Gender Transformation",
   "item.gendermod.gender_transform_splash_potion.effect.gender_transform": "Splash Potion of Gender Transformation",
-  "item.gendermod.gender_transform_lingering_potion.effect.gender_transform": "Lingering Potion of Gender Transformation",
-  "stat.gendermod.gender_transitions": "Gender transformation times"
+  "item.gendermod.transgender_potion.desc": "Change gender of user, only can be used once"
 }
