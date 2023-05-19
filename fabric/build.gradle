@@ -52,8 +52,9 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     // Remove the next line if you don't want to depend on the API
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-    modRuntimeOnly "com.terraformersmc:modmenu:6.2.1"
-    modRuntimeOnly "curse.maven:nbtedit-reborn-678133:4507558"
+
+    modRuntimeOnly 'com.terraformersmc:modmenu:6.2.1'
+    modRuntimeOnly 'curse.maven:nbtedit-reborn-678133:4540448'
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
