@@ -2,7 +2,7 @@ package cx.rain.mc.gendermod;
 
 import cx.rain.mc.gendermod.effect.GModEffects;
 import cx.rain.mc.gendermod.item.GModItems;
-import cx.rain.mc.gendermod.item.potion.GModPotion;
+import cx.rain.mc.gendermod.item.potion.GModPotions;
 import cx.rain.mc.gendermod.stat.GModStats;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class GenderMod {
         GModItems.register();
         GModEffects.register();
         GModStats.register();
-        GModPotion.register();
+        GModPotions.register();
 
         getLogger().info("Equality!");
     }

@@ -8,7 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.alchemy.Potion;
 
-public class GModPotion {
+public class GModPotions {
     public static final DeferredRegister<Potion> POTION = DeferredRegister.create(GenderMod.MOD_ID, Registries.POTION);
 
     public static void register() {

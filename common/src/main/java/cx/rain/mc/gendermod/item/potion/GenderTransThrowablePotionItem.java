@@ -30,7 +30,7 @@ public abstract class GenderTransThrowablePotionItem extends GenderTransPotionIt
         ItemStack itemStack = player.getItemInHand(usedHand);
         if (!level.isClientSide) {
             ThrownPotion thrownPotion = new ThrownPotion(level, player);
-            thrownPotion.setItem(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), GModPotion.GENDER_TRANSFORM.get()));
+            thrownPotion.setItem(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), GModPotions.GENDER_TRANSFORM.get()));
             thrownPotion.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0f, 0.5f, 1.0f);
             level.addFreshEntity(thrownPotion);
         }

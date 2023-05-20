@@ -17,7 +17,7 @@ public class GenderTransLingeringPotionItem extends GenderTransThrowablePotionIt
 
     @Override
     public ItemStack getPotion() {
-        return PotionUtils.setPotion(new ItemStack(Items.LINGERING_POTION), GModPotion.GENDER_TRANSFORM.get());
+        return PotionUtils.setPotion(new ItemStack(Items.LINGERING_POTION), GModPotions.GENDER_TRANSFORM.get());
     }
 
     @Override

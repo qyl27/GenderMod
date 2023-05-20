@@ -17,7 +17,7 @@ public class GenderTransSplashPotionItem extends GenderTransThrowablePotionItem 
 
     @Override
     public ItemStack getPotion() {
-        return PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), GModPotion.GENDER_TRANSFORM.get());
+        return PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), GModPotions.GENDER_TRANSFORM.get());
     }
 
     @Override

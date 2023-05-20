@@ -6,6 +6,9 @@
     "client": [
     ],
     "mixins": [
+        "BrewingStandBlockEntityMixin",
+        "brewing_stand_menu.IngredientsSlotMixin",
+        "brewing_stand_menu.PotionSlotMixin"
     ],
     "injectors": {
         "defaultRequire": 1

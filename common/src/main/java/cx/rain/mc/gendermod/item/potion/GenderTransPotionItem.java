@@ -1,7 +1,6 @@
 package cx.rain.mc.gendermod.item.potion;
 
 import cx.rain.mc.gendermod.effect.GModEffects;
-import cx.rain.mc.gendermod.item.GModItems;
 import cx.rain.mc.gendermod.mixins.interfaces.IGenderHolder;
 import cx.rain.mc.gendermod.stat.GModStats;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -10,7 +9,6 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -82,8 +80,8 @@ public class GenderTransPotionItem extends PotionItem {
     public ItemStack getDefaultInstance() {
         var stack = new ItemStack(this);
 
-        if (PotionUtils.getPotion(stack) != GModPotion.GENDER_TRANSFORM.get()) {
-            PotionUtils.setPotion(stack, GModPotion.GENDER_TRANSFORM.get());
+        if (PotionUtils.getPotion(stack) != GModPotions.GENDER_TRANSFORM.get()) {
+            PotionUtils.setPotion(stack, GModPotions.GENDER_TRANSFORM.get());
         }
 
         return stack;
@@ -93,8 +91,8 @@ public class GenderTransPotionItem extends PotionItem {
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
         super.inventoryTick(stack, level, entity, slotId, isSelected);
 
-        if (PotionUtils.getPotion(stack) != GModPotion.GENDER_TRANSFORM.get()) {
-            PotionUtils.setPotion(stack, GModPotion.GENDER_TRANSFORM.get());
+        if (PotionUtils.getPotion(stack) != GModPotions.GENDER_TRANSFORM.get()) {
+            PotionUtils.setPotion(stack, GModPotions.GENDER_TRANSFORM.get());
         }
     }
 
